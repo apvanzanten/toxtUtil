@@ -3,9 +3,38 @@
 
 #include <algorithm>
 #include <iterator>
+#include <utility>
 #include <vector>
 
 namespace util {
+template <typename It> // It should be a bidirectional iterator
+constexpr std::vector<std::pair<It, It>> splitOn(It first, It last, It delimFirst, It delimLast) {
+  std::vector<std::pair<It, It>> parts;
+
+  auto partFirst = first;
+  auto partLast = first;
+  auto delimIt = delimFirst;
+  const size_t delimSize = std::distance(delimFirst, delimLast);
+
+  while (partLast != last) {
+    if (*partLast == *delimIt) {
+      ++delimIt;
+      if (delimIt == delimLast) {
+        parts.emplace_back(partFirst, std::prev(partLast, delimSize -1));
+        partFirst = std::next(partLast);
+        delimIt = delimFirst;
+      }
+    } else {
+      delimIt = delimFirst;
+    }
+
+    ++partLast;
+  }
+  parts.emplace_back(partFirst, partLast);
+
+  return parts;
+}
+
 template <typename T>
 constexpr std::vector<T> splitOn(const T &sequence, const typename T::value_type &delimiter) {
   std::vector<T> parts(1);
