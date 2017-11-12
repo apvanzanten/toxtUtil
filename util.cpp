@@ -15,14 +15,13 @@ size_t countInString(const std::string &sequence, const std::string &toCount) {
 
   while (index != sequence.npos) {
     ++count;
-    index = sequence.find(toCount, index+1);
+    index = sequence.find(toCount, index + 1);
   }
 
   return count;
 }
 
-size_t countInString(std::string::const_iterator first,
-                     std::string::const_iterator last,
+size_t countInString(std::string::const_iterator first, std::string::const_iterator last,
                      const std::string &toCount) {
   if (toCount.size() == 1) {
     return std::count(first, last, toCount.front());

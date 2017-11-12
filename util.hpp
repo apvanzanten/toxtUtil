@@ -7,8 +7,7 @@
 
 namespace util {
 template <typename T>
-constexpr std::vector<T> splitOn(const T &sequence,
-                                 const typename T::value_type &delimiter) {
+constexpr std::vector<T> splitOn(const T &sequence, const typename T::value_type &delimiter) {
   std::vector<T> parts(1);
 
   for (const auto &element : sequence) {
@@ -29,8 +28,7 @@ constexpr std::vector<T> splitOn(const T &sequence,
   return parts;
 }
 
-template <typename T>
-constexpr std::vector<T> splitOn(const T &sequence, const T &delimiter) {
+template <typename T> constexpr std::vector<T> splitOn(const T &sequence, const T &delimiter) {
   if (delimiter.size() == 1) {
     return splitOn(sequence, delimiter.front());
   }
@@ -53,8 +51,7 @@ constexpr std::vector<T> splitOn(const T &sequence, const T &delimiter) {
       }
     } else {
       if (delimIt != delimiter.begin()) {
-        parts.back().insert(parts.back().end(), delimiterBuffer.begin(),
-                            delimiterBuffer.end());
+        parts.back().insert(parts.back().end(), delimiterBuffer.begin(), delimiterBuffer.end());
         delimiterBuffer.clear();
         delimIt = delimiter.begin();
       }
@@ -77,8 +74,7 @@ constexpr std::vector<T> splitOn(const T &sequence, const T &delimiter) {
 
 size_t countInString(const std::string &sequence, const std::string &toCount);
 
-size_t countInString(std::string::const_iterator first,
-                     std::string::const_iterator last,
+size_t countInString(std::string::const_iterator first, std::string::const_iterator last,
                      const std::string &toCount);
 } // namespace util
 #endif
