@@ -30,5 +30,7 @@
 *.exe
 *.out
 *.app
+
+# project specific
 debug
-releaes
+release
