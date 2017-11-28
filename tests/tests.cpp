@@ -1,4 +1,5 @@
 #include <catch.hpp>
+#include <list>
 
 #include "util.hpp"
 
@@ -50,6 +51,17 @@ TEST_CASE("util::splitOn() iterator-based version", "[util]") {
 
     REQUIRE(parts == std::vector<std::vector<int>>({{0}, {1, 2, 3}, {4, 5, 6, 7}, {8}, {9}}));
   }
+}
+
+TEST_CASE("util::count()", "[util]"){
+  REQUIRE(util::count(std::string{}, std::string{}) == 0);
+  REQUIRE(util::count(std::string{}, std::string{'e'}) == 0);
+  REQUIRE(util::count(std::string{"hello"}, std::string{'l'}) == 2);
+  REQUIRE(util::count(std::string{"hello"}, std::string{"ll"}) == 1);
+  REQUIRE(util::count(std::vector<int>{}, std::vector<int>{0}) == 0);
+  REQUIRE(util::count(std::list<int>{0,1,2,3,4}, std::list<int>{0}) == 1);
+  REQUIRE(util::count(std::string{"000asdsdfjlasdkfj00asdfj00000ksdf00"}, std::string{"00"}) == 5);
+  REQUIRE(util::count(std::string{"alskjflksajdfssplitaskdjaslkjdaskdjsplitalksjdalsjkdaskjiuorqwieursplitaslkdfjlskjadfssplit"}, std::string{"split"}) == 4);
 }
 
 TEST_CASE("util::countInString()", "[util]") {
