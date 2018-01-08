@@ -52,8 +52,8 @@ counting sequences rather than single elements.
 */
 template <typename It>
 constexpr size_t count(It seqFirst, const It &seqLast, const It &countFirst,
-                       const It &countLast) noexcept(noexcept(It::operator++) &&
-                                                     noexcept(It::operator--)) {
+                       const It &countLast) noexcept(noexcept(++seqFirst) &&
+                                                     noexcept(--seqFirst)) {
   size_t counted = 0;
   auto countIt = countFirst;
   auto &seqIt = seqFirst;
