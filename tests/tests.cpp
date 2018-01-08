@@ -62,25 +62,7 @@ TEST_CASE("util::count()", "[util]"){
   REQUIRE(util::count(std::list<int>{0,1,2,3,4}, std::list<int>{0}) == 1);
   REQUIRE(util::count(std::string{"000asdsdfjlasdkfj00asdfj00000ksdf00"}, std::string{"00"}) == 5);
   REQUIRE(util::count(std::string{"alskjflksajdfssplitaskdjaslkjdaskdjsplitalksjdalsjkdaskjiuorqwieursplitaslkdfjlskjadfssplit"}, std::string{"split"}) == 4);
+  REQUIRE(noexcept(util::count(std::string{}, std::string{})));
+  REQUIRE(noexcept(util::count(std::list<int>(), std::list<int>())));
 }
 
-TEST_CASE("util::countInString()", "[util]") {
-  SECTION("pattern to count is single character, all characters in string are "
-          "that character") {
-    const std::string in = "xxxx";
-    const std::string toCount = "x";
-
-    const auto res = util::countInString(in, toCount);
-
-    REQUIRE(res == 4);
-  }
-  SECTION("patter to count is 2 characters, many different characters in string, multiple "
-          "occurrences of pattern to count.") {
-    const std::string in = "sdlfk 23 jwea 23 jg 23 s;j6j 2 3 as 23 df2jsj 23 asd62";
-    const std::string toCount = "23";
-
-    const auto res = util::countInString(in, toCount);
-
-    REQUIRE(res == 5);
-  }
-}

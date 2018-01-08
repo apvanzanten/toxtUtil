@@ -1,9 +1,6 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
-#include <algorithm>
-#include <iterator>
-#include <utility>
 #include <vector>
 
 namespace util {
@@ -54,24 +51,28 @@ counting sequences rather than single elements.
 @return A size_t containig the number of occurrences.
 */
 template <typename It>
-constexpr size_t count(It seqFirst, const It &seqLast, const It countFirst, const It &countLast) {
-  size_t res = 0;
+constexpr size_t count(It seqFirst, const It &seqLast, const It &countFirst,
+                       const It &countLast) noexcept(noexcept(It::operator++) &&
+                                                     noexcept(It::operator--)) {
+  size_t counted = 0;
   auto countIt = countFirst;
+  auto &seqIt = seqFirst;
 
-  for (auto &seqIt = seqFirst; seqIt != seqLast; ++seqIt) {
+  while (seqIt != seqLast) {
     if (*seqIt == *countIt) {
       ++countIt;
       if (countIt == countLast) {
-        ++res;
+        ++counted;
         countIt = countFirst;
       }
     } else if (countIt != countFirst) {
       countIt = countFirst;
       --seqIt;
     }
+    ++seqIt;
   }
 
-  return res;
+  return counted;
 }
 
 /** Counts occurrences of a specific sequence in another sequence (sequences must be of same type
@@ -81,12 +82,12 @@ then for counting sequences rather than single elements.
 @param toCount Sequence to count occurrences of.
 @return A size_t containing the number of occurrences.
 */
-template <typename T> size_t count(const T &sequence, const T &toCount) {
+template <typename T>
+size_t count(const T &sequence,
+             const T &toCount) noexcept(noexcept(count(sequence.cbegin(), sequence.cend(),
+                                                       toCount.cbegin(), toCount.cend()))) {
   return count(sequence.cbegin(), sequence.cend(), toCount.cbegin(), toCount.cend());
 }
 
-size_t countInString(const std::string &sequence, const std::string &toCount);
-size_t countInString(std::string::const_iterator first, std::string::const_iterator last,
-                       const std::string &toCount);
 } // namespace util
 #endif
